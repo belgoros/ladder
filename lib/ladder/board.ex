@@ -17,6 +17,6 @@ defmodule Ladder.Board do
       |> Enum.reverse()
       |> Enum.join(" > ")
 
-    moves <> " ...?"
+    moves <> " ...#{board.answer}?"
   end
 end
