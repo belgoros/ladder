@@ -17,8 +17,10 @@ defmodule Ladder.Server do
   end
 
   # server
-  def init(init_args) do
-    {:ok, Board.new(init_args)}
+  def init(initial) do
+    board = Board.new(initial)
+    IO.puts(Board.show(board))
+    {:ok, board}
   end
 
   def handle_call({:turn, word}, _from, board) do
