@@ -22,4 +22,14 @@ defmodule Ladder.Words do
     |> Enum.zip(String.graphemes(word2))
     |> Enum.count(fn {x, y} -> x != y end)
   end
+
+  # Generate a random answer given a difficulty
+  # and exactly num_changes changed letters
+  def generate(word, num_changes) do
+    moves(word)
+    |> Stream.drop_while(fn current ->
+      changes(word, current) != num_changes
+    end)
+    |> Enum.take(1)
+  end
 end
