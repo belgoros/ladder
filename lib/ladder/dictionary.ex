@@ -4,7 +4,7 @@ defmodule Ladder.Dictionary do
   def words do
     @file_name
     |> File.read!()
-    |> String.split("\n")
+    |> String.split("\n", trim: true)
   end
 
   def index_word(word) do
