@@ -11,4 +11,9 @@ defmodule Ladder.Words do
     |> Enum.flat_map(fn {char, position} -> @word_index[{char, position}] end)
     |> Enum.random()
   end
+
+  def moves(word) do
+    word
+    |> Stream.iterate(&move/1)
+  end
 end
