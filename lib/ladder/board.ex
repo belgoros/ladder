@@ -1,8 +1,4 @@
-defmodule Ladder.Words do
+defmodule Ladder.Board do
   @words Ladder.Dictionary.words()
   @word_index Ladder.Dictionary.index_words(@words)
-
-  def words, do: @words
-
-  def word_index, do: @word_index
 end
