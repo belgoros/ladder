@@ -8,10 +8,15 @@ defmodule Ladder.Board do
   end
 
   def turns(board, word) do
-    # .. word
+    %{board | moves: [word | board.moves]}
   end
 
   def show(board) do
-    # show a bord to the user
+    moves =
+      board.moves
+      |> Enum.reverse()
+      |> Enum.join(" > ")
+
+    moves <> " ...?"
   end
 end
