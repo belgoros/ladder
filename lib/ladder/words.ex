@@ -1,6 +1,9 @@
 defmodule Ladder.Words do
+  @moduledoc false
+
   @words Ladder.Dictionary.words()
   @word_index Ladder.Dictionary.index_words(@words)
+  @words_set MapSet.new(@words)
 
   def random_word, do: Enum.random(@words)
 
@@ -21,6 +24,18 @@ defmodule Ladder.Words do
     String.graphemes(word1)
     |> Enum.zip(String.graphemes(word2))
     |> Enum.count(fn {x, y} -> x != y end)
+  end
+
+  def member?(word) do
+    MapSet.member?(@words_set, word)
+  end
+
+  def has_correct_length?(word) do
+    String.length(word) == 4
+  end
+
+  def exactly_one_change?(word, previous) do
+    changes(word, previous) == 1
   end
 
   # Generate a random answer given a difficulty
