@@ -1,11 +1,15 @@
 defmodule Ladder.Server do
   use GenServer
 
-  alias Ladder.Board
+  alias Ladder.{Board, Words}
 
   # client
-  def start_link(input) do
-    GenServer.start_link(__MODULE__, input, name: :ladder)
+  def start_link(name) do
+    IO.puts("Starting the game for #{name}")
+    initial = Words.random_word()
+    answer = Words.random_word()
+
+    GenServer.start_link(__MODULE__, {initial, answer}, name: name)
   end
 
   def turn(pid \\ :ladder, word) do
