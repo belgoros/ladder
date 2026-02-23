@@ -7,7 +7,7 @@ defmodule Ladder.Board do
     %__MODULE__{answer: answer, moves: [initial_word]}
   end
 
-  def turns(board, word) do
+  def turn(board, word) do
     %{board | moves: [word | board.moves]}
   end
 
