@@ -4,10 +4,10 @@ defmodule Ladder.Server do
   alias Ladder.{Board, Words}
 
   # client
-  def start_link(name) do
+  def start_link({name, difficulty}) do
     IO.puts("Starting the game for #{name}")
     initial = Words.random_word()
-    answer = Words.random_word()
+    answer = Words.generate(initial, difficulty)
 
     GenServer.start_link(__MODULE__, {initial, answer}, name: name)
   end
