@@ -17,6 +17,6 @@ defmodule Ladder.Dictionary do
   def index_words(words) do
     words
     |> Enum.flat_map(&index_word/1)
-    |> Map.new()
+    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
   end
 end
