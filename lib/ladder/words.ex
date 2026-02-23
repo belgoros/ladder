@@ -16,4 +16,10 @@ defmodule Ladder.Words do
     word
     |> Stream.iterate(&move/1)
   end
+
+  def changes(word1, word2) do
+    String.graphemes(word1)
+    |> Enum.zip(String.graphemes(word2))
+    |> Enum.count(fn {x, y} -> x != y end)
+  end
 end
