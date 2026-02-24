@@ -46,5 +46,6 @@ defmodule Ladder.Words do
       changes(word, current) != num_changes
     end)
     |> Enum.take(1)
+    |> List.first()
   end
 end
