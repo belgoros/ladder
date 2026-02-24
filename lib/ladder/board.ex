@@ -12,11 +12,17 @@ defmodule Ladder.Board do
   end
 
   def show(board) do
-    moves =
-      board.moves
-      |> Enum.reverse()
-      |> Enum.join(" > ")
+    board.moves
+    |> Enum.reverse()
+    |> Enum.join(" > ")
+    |> maybe_win(board)
+  end
 
-    moves <> " > ...#{board.answer} ?"
+  defp maybe_win(moves, board) do
+    if board.answer == hd(board.moves) do
+      "You've won!\n " <> moves
+    else
+      moves <> " > ...#{board.answer} ?"
+    end
   end
 end
