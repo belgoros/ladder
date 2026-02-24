@@ -4,21 +4,11 @@ defmodule Ladder do
 
   alias Ladder.Server
 
-  def play(difficulty) do
-    Server.start_link({@me, difficulty})
-
-    next_turn(:ok)
+  def play(name) do
+    DynamicSupervisor.start_child(:dsup, {Server, {name, 4}})
   end
 
-  def next_turn(:done), do: :yay
-
-  def next_turn(:ok) do
-    word =
-      IO.gets("Move: ")
-      |> String.trim()
-
-    @me
-    |> Server.turn(word)
-    |> next_turn()
+  def turn(name, word) do
+    Server.turn(name, word)
   end
 end
