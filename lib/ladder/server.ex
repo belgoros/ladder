@@ -40,7 +40,11 @@ defmodule Ladder.Server do
       |> Board.turn(word)
       |> reply_or_finish()
     else
-      {:error, errors} -> {:reply, {:ok, Enum.join(errors, "\n")}, board}
+      {:error, errors} ->
+        reply =
+          Enum.join([Board.show(board) | errors], "\n")
+
+        {:reply, {:ok, reply}, board}
     end
   end
 
@@ -51,5 +55,9 @@ defmodule Ladder.Server do
       Board.won?(board) -> {:stop, :normal, {:done, reply}, board}
       true -> {:reply, {:ok, reply}, board}
     end
+  end
+
+  def child_spec({name, _difficulty} = options) do
+    %{id: name, start: {__MODULE__, :start_link, [options]}}
   end
 end
