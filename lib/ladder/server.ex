@@ -3,7 +3,7 @@ defmodule Ladder.Server do
 
   use GenServer
 
-  alias Ladder.{Board, Words}
+  alias Ladder.{Board, Words, Errors}
 
   # client
   def start_link({name, difficulty}) do
@@ -15,7 +15,9 @@ defmodule Ladder.Server do
   end
 
   def turn(pid \\ :ladder, word) do
-    GenServer.call(pid, {:turn, word})
+    pid
+    |> GenServer.call({:turn, word})
+    |> IO.puts()
   end
 
   # server
@@ -26,8 +28,26 @@ defmodule Ladder.Server do
   end
 
   def handle_call({:turn, word}, _from, board) do
-    new_board = Board.turn(board, word)
-    # {:reply, converter, reducer}
-    {:reply, Board.show(new_board), new_board}
+    make_validated_move(board, word)
+    reply_or_finish(board)
+  end
+
+  defp make_validated_move(board, word) do
+    with {:ok, word} <- Errors.validate(word, hd(board.moves)) do
+      board
+      |> Board.turn(word)
+      |> reply_or_finish()
+    else
+      {:error, errors} -> {:reply, Enum.join(errors, "\n"), board}
+    end
+  end
+
+  defp reply_or_finish(board) do
+    reply = Board.show(board)
+
+    cond do
+      Board.won?(board) -> {:stop, :normal, reply, board}
+      true -> {:reply, reply, board}
+    end
   end
 end
