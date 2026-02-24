@@ -1,4 +1,6 @@
 defmodule Ladder.Server do
+  @moduledoc false
+
   use GenServer
 
   alias Ladder.{Board, Words}

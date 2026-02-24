@@ -1,4 +1,6 @@
 defmodule Ladder.Dictionary do
+  @moduledoc false
+
   @file_name "./priv/words.txt"
 
   def words do

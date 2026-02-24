@@ -1,4 +1,6 @@
 defmodule Ladder.Board do
+  @moduledoc false
+
   defstruct [:answer, :moves]
 
   def new({initial_word, answer}) do
