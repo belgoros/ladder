@@ -19,10 +19,12 @@ defmodule Ladder.Board do
   end
 
   defp maybe_win(moves, board) do
-    if board.answer == hd(board.moves) do
+    if won?(board) do
       "You've won!\n " <> moves
     else
       moves <> " > ...#{board.answer} ?"
     end
   end
+
+  def won?(board), do: board.answer == hd(board.moves)
 end
