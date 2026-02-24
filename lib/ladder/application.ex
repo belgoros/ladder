@@ -8,8 +8,7 @@ defmodule Ladder.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: Ladder.Worker.start_link(arg)
-      # {Ladder.Worker, arg}
+      {DynamicSupervisor, name: :dsup}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
