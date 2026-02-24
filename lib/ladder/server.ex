@@ -15,9 +15,10 @@ defmodule Ladder.Server do
   end
 
   def turn(pid \\ :ladder, word) do
-    pid
-    |> GenServer.call({:turn, word})
-    |> IO.puts()
+    {status, reply} = GenServer.call(pid, {:turn, word})
+    IO.puts(reply)
+
+    status
   end
 
   # server
@@ -39,7 +40,7 @@ defmodule Ladder.Server do
       |> Board.turn(word)
       |> reply_or_finish()
     else
-      {:error, errors} -> {:reply, Enum.join(errors, "\n"), board}
+      {:error, errors} -> {:reply, {:ok, Enum.join(errors, "\n")}, board}
     end
   end
 
@@ -47,8 +48,8 @@ defmodule Ladder.Server do
     reply = Board.show(board)
 
     cond do
-      Board.won?(board) -> {:stop, :normal, reply, board}
-      true -> {:reply, reply, board}
+      Board.won?(board) -> {:stop, :normal, {:done, reply}, board}
+      true -> {:reply, {:ok, reply}, board}
     end
   end
 end
