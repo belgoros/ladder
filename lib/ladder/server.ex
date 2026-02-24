@@ -21,18 +21,19 @@ defmodule Ladder.Server do
   end
 
   # server
+  @impl true
   def init(initial) do
     board = Board.new(initial)
     IO.puts(Board.show(board))
     {:ok, board}
   end
 
+  @impl true
   def handle_call({:turn, word}, _from, board) do
     make_validated_move(board, word)
-    reply_or_finish(board)
   end
 
-  defp make_validated_move(board, word) do
+  def make_validated_move(board, word) do
     with {:ok, word} <- Errors.validate(word, hd(board.moves)) do
       board
       |> Board.turn(word)
